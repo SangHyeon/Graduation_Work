@@ -93,48 +93,44 @@ def get_article_url(client_id, client_secret, output_file, url): #get articles' 
     source_code_from_URL = urllib.request.urlopen(url)
     soup = BeautifulSoup(source_code_from_URL, 'lxml', from_encoding='utf-8')
 
+    t_pages = soup.find_all('div', class_='title_desc all_my')
+    d_pages = str(t_pages).split('/')
+    
+    pages = d_pages[1]
+    pages = clean_text(pages)
+    pages = pages.strip()
+    pages = pages[:-1]
+    pages = int(pages)
+
     for find in soup.find_all('div', class_='paging') :
         n_page = find.select('a')
         t_url = "https:"+n_page[0]['href']
         s_url = t_url[:-2]
         #print(s_url)
         cnt = -9
-        while cnt < 90 :
+        while cnt < pages :
             t_cnt = cnt+10
             cnt += 10
             url = s_url + str(t_cnt) +"&refresh_start=0"
             get_article(output_file, url)
 
-def get_text(URL, output_file):
-    source_code_from_url = urllib.request.urlopen(URL)
-    soup = BeautifulSoup(source_code_from_url, 'html.parser', from_encoding='EUC-KR')
-
-    request = urllib.request.Request(URL)
-    
-    content_of_article = soup.select('div')
-    #print (content_of_article)
-    
-    for item in content_of_article:
-        #string_item = str(item.get_text())
-        string_item = str(item.find_all('div', id='article_cont'))
-        #print (string_item.count("유가 하락"))
-        #cnt+=len(re.search("원?달러", string_item))
-        #print (string_item)
-        output_file.write(string_item)
-
 def main():
     print(usd_currency.USD())
     client = get_user_info()
-    encText = urllib.parse.quote(get_date())
-    encText2 = urllib.parse.quote("원달러환율")
-    url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds="+encText+"&de="+encText+"&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
-    #url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=2017.04.26&de=2017.04.26&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
-    output_file = open('words_log.txt', 'w')
-    get_article_url(client[0], client[1], output_file, url)
-    print("=====> : ", cnt_pos)
-    print("-----> : ", cnt_neg)
-    print(cnt_pos - cnt_neg)
-    output_file.close()
+    day = datetime.datetime.today().weekday() 
+    if(day == 5 or day == 6) :
+        print("Today is weekend")
+    else :
+        encText = urllib.parse.quote(get_date())
+        encText2 = urllib.parse.quote("원달러환율")
+        url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds="+encText+"&de="+encText+"&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
+        #url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=2017.04.26&de=2017.04.26&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
+        output_file = open('words_log.txt', 'w')
+        get_article_url(client[0], client[1], output_file, url)
+        print("=====> : ", cnt_pos)
+        print("-----> : ", cnt_neg)
+        print(cnt_pos - cnt_neg)
+        output_file.close()
 
 if __name__ == '__main__':
     main()
