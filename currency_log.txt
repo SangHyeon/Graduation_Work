@@ -2571,5 +2571,3 @@
 2017.04.26	1,130.50
 2017.04.27	1,125.10
 2017.04.28	1,130.10
-
-https://github.com/hunkim/DeepLearningZeroToAll/blob/master/lab-12-5-rnn_stock_prediction.py
