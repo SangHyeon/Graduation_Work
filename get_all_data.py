@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+import time
 import os
 import urllib.request, urllib.error, urllib.parse
 import urllib.request, urllib.parse, urllib.error
@@ -124,7 +125,9 @@ def main():
     client = get_user_info()
     open_text = open('date.txt', 'r')
     output_file = open('date_log.txt', 'w')
+    count = 0
     while True :
+        count += 1
         line = open_text.readline()
         if not line : 
             break
@@ -132,11 +135,19 @@ def main():
         encText2 = urllib.parse.quote("원달러환율")
         url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds="+encText+"&de="+encText+"&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
         get_article_url(client[0], client[1], url)
+        output_file.write(line[:-1])
+        output_file.write(' ')
         output_file.write(str(round(cnt_pos/avg - cnt_neg/avg, 3)))
         output_file.write('\n')
         cnt_pos = 0
         cnt_neg = 0
         avg = 0
+        if count == 150 :
+            count = 0
+            time.sleep(10000)
+    print("====> ", print_test_predict)
+    print("----> ", print_testY)
+
 
     output_file.close()
     open_text.close()
