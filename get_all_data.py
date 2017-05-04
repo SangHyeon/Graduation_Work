@@ -145,9 +145,6 @@ def main():
         if count == 150 :
             count = 0
             time.sleep(10000)
-    print("====> ", print_test_predict)
-    print("----> ", print_testY)
-
 
     output_file.close()
     open_text.close()
