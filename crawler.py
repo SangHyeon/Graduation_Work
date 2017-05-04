@@ -32,6 +32,7 @@ cnt_pos = 0
 neg = [0, 0, 0, 0, 0, 0]
 cnt_neg = 0
 #
+avg = 0
 
 def clean_text(text):
     cleaned_text = re.sub('[a-zA-Z]', '', text)
@@ -60,6 +61,7 @@ def get_date():
 def get_article(output_file, url):
     global pos, cnt_pos
     global neg, cnt_neg
+    global avg
     source_code_from_URL = urllib.request.urlopen(url)
     soup = BeautifulSoup(source_code_from_URL, 'lxml', from_encoding='utf-8')
 
@@ -67,7 +69,7 @@ def get_article(output_file, url):
     for item in soup.find_all('ul', class_='type01') :
         text = text + str(item.find_all(text=True))
         text = clean_text(text)
-        print (str(text))
+        #print (str(text))
         #원 달러 환율 내린 #원 달러 환율 약보합 #원 달러 하향
         #원 달러 약세 #원 달러 하락 #원화 가치 상승
         pos[0] = len(re.findall("원.+달러.+환율.+내린", text))
@@ -87,6 +89,7 @@ def get_article(output_file, url):
         neg[4] = len(re.findall("원.+달러.+강세", text))
         neg[5] = len(re.findall("원화.+가치.+하락", text))
         cnt_neg += sum(neg, 0.0)
+        avg += 6
         output_file.write(str(text))
 
 def get_article_url(client_id, client_secret, output_file, url): #get articles' title url
@@ -127,9 +130,9 @@ def main():
         #url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=2017.04.26&de=2017.04.26&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
         output_file = open('words_log.txt', 'w')
         get_article_url(client[0], client[1], output_file, url)
-        print("=====> : ", cnt_pos)
-        print("-----> : ", cnt_neg)
-        print(cnt_pos - cnt_neg)
+        #print("=====> : ", cnt_pos/avg)
+        #print("-----> : ", cnt_neg/avg)
+        print(round(cnt_pos/avg - cnt_neg/avg, 3))
         output_file.close()
 
 if __name__ == '__main__':
