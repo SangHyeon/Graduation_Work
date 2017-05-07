@@ -45,7 +45,7 @@ def DeMinMaxScaler(data):#수정 요
 
 # train Parameters
 timesteps = seq_length = 5 #학습시킬 데이터의 간격
-data_dim = 1 # 학습시킬 데이터의 열의 갯수
+data_dim = 2 # 학습시킬 데이터의 열의 갯수
 hidden_dim = 10 
 output_dim = 1
 learing_rate = 0.01
@@ -54,12 +54,12 @@ iterations = 500
 # Open, High, Low, Volume, Close
 xy = np.loadtxt('currency_log.txt', delimiter=',')
 print(xy)
-xy = xy[:,[-1]]  # reverse order (chronically ordered)
+#xy = xy[:,[-1]]  # reverse order (chronically ordered)
 np_max = np.max(xy, 0)
 np_min = np.min(xy, 0)
 xy = MinMaxScaler(xy)
-x = xy[:,[-1]]
-y = xy[:,[-1]]  # Close as label
+x = xy[[-1],[-2]]
+y = xy[[-1],[-2]]  # Close as label
 
 # build a dataset
 dataX = []
@@ -67,7 +67,7 @@ dataY = []
 for i in range(0, len(y) - seq_length):
     _x = x[i:i + seq_length]
     _y = y[i + seq_length]  # Next close price
-   # print(_x, "->", _y)
+    #print(_x, "->", _y)
     dataX.append(_x)
     dataY.append(_y)
 
