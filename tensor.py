@@ -5,6 +5,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib
 import os
+import pandas
 
 tf.set_random_seed(777)  # reproducibility
 
