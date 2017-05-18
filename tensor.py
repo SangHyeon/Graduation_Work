@@ -53,14 +53,22 @@ learing_rate = 0.01
 iterations = 500
 
 # Open, High, Low, Volume, Close
-xy = np.loadtxt('currency_log.txt', delimiter=',')
+xy = np.loadtxt('currency_log2.txt', delimiter=',')
+#xy2 = np.loadtxt('currency_log.txt', delimiter=',', usecols=1)
+print("=======")
 print(xy)
+#xy = xy[0,1,2]
+print("----------")
+print(xy[:,[-2]])
+
+
+
 #xy = xy[:,[-1]]  # reverse order (chronically ordered)
 np_max = np.max(xy, 0)
 np_min = np.min(xy, 0)
 xy = MinMaxScaler(xy)
-x = xy[[-1],[-2]]
-y = xy[[-1],[-2]]  # Close as label
+x = xy
+y = xy[:,[-2]]  # Close as label
 
 # build a dataset
 dataX = []
@@ -73,8 +81,8 @@ for i in range(0, len(y) - seq_length):
     dataY.append(_y)
 
 # train/test split
-#train_size = int(len(dataY) * 0.7) # 70%
-train_size = int(len(dataY) - 1) # 70%
+train_size = int(len(dataY) * 0.7) # 70%
+#train_size = int(len(dataY) - 1) # 70%
 test_size = len(dataY) - train_size # 30%
 trainX, testX = np.array(dataX[0:train_size]), np.array(
     dataX[train_size:len(dataX)])
@@ -131,6 +139,6 @@ with tf.Session() as sess:
     plt.xlabel("Time Period")
     plt.ylabel("Dollar Price")
     print("====> ", print_test_predict)
-    #print("----> ", print_testY)
+    print("----> ", print_testY)
     plt.show()
     plt.savefig('result.png')
