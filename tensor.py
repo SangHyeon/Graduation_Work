@@ -50,7 +50,7 @@ data_dim = 2 # 학습시킬 데이터의 열의 갯수
 hidden_dim = 10 
 output_dim = 1
 learing_rate = 0.01
-iterations = 5500
+iterations = 5630
 
 # Open, High, Low, Volume, Close
 xy = np.loadtxt('currency_log2.txt', delimiter=',')
