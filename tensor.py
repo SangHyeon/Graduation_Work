@@ -129,8 +129,10 @@ with tf.Session() as sess:
     print("RMSE: {}".format(rmse))
 
     t_rmse = DeMinMaxScaler(rmse)
-    print_testY = DeMinMaxScaler(testY)
-    print_test_predict = DeMinMaxScaler(test_predict)
+    #print_testY = DeMinMaxScaler(testY)
+    #print_test_predict = DeMinMaxScaler(test_predict)
+    print_testY = (testY)
+    print_test_predict = (test_predict)
     
     # Plot predictions
     plt.plot(print_testY)
@@ -139,6 +141,6 @@ with tf.Session() as sess:
     plt.xlabel("Time Period")
     plt.ylabel("Dollar Price")
     print("====> ", print_test_predict)
-    print("----> ", print_testY)
+    #print("----> ", print_testY)
     plt.show()
     plt.savefig('result.png')
