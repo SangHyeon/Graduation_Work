@@ -6,6 +6,7 @@ import urllib.request, urllib.parse, urllib.error
 import datetime
 import lxml
 import usd_currency
+import frequency
 from bs4 import BeautifulSoup
 import sys
 from imp import reload
@@ -134,6 +135,8 @@ def main():
         #print("-----> : ", cnt_neg/avg)
         print(round(cnt_pos/avg - cnt_neg/avg, 3))
         output_file.close()
+
+        frequency.get_freq()
 
 if __name__ == '__main__':
     main()
