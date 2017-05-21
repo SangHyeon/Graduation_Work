@@ -14,7 +14,7 @@ def get_tags(text, ntags=50):
     return return_list
  
  
-def main():
+def get_freq():
     text_file_name = "words_log.txt"
     noun_count = 100
     output_file_name = "main_data.txt"
@@ -30,5 +30,5 @@ def main():
     open_output_file.close()
  
  
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
