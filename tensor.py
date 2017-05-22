@@ -140,7 +140,7 @@ with tf.Session() as sess:
     
     plt.xlabel("Time Period")
     plt.ylabel("Dollar Price")
-    print("====> ", print_test_predict)
+    #print("====> ", print_test_predict)
     #print("----> ", print_testY)
     plt.show()
     plt.savefig('result.png')
