@@ -17,7 +17,7 @@ def get_tags(text, ntags=50):
 def get_freq():
     text_file_name = "words_log.txt"
     noun_count = 100
-    output_file_name = "main_data.txt"
+    output_file_name = "words_data.txt"
     open_text_file = open(text_file_name, 'r')
     text = open_text_file.read()
     tags = get_tags(text, noun_count)
