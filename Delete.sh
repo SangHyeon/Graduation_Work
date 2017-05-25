@@ -2,3 +2,4 @@
 
 curl -XDELETE 'http://localhost:9200/currency'
 curl -XDELETE 'http://localhost:9200/words'
+curl -XDELETE 'http://localhost:9200/info'
