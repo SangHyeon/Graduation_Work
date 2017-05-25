@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib
 import os
 import pandas
+import re
 
 tf.set_random_seed(777)  # reproducibility
 
@@ -44,6 +45,14 @@ def MinMaxScaler(data):
 def DeMinMaxScaler(data):#수정 요
     return data*(np_max - np_min) + np_min
 
+def clean_text(text):
+    cleaned_text = re.sub('[a-zA-Z]', '', text)
+    cleaned_text = re.sub(' ', '', text)
+    cleaned_text = re.sub('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', \
+            '', cleaned_text)
+    return cleaned_text
+
+
 # train Parameters
 timesteps = seq_length = 5 #학습시킬 데이터의 간격
 data_dim = 2 # 학습시킬 데이터의 열의 갯수
@@ -53,7 +62,7 @@ learing_rate = 0.01
 iterations = 5630
 
 # Open, High, Low, Volume, Close
-xy = np.loadtxt('currency_log2.txt', delimiter=',')
+xy = np.loadtxt('currency_log.txt', delimiter=',')
 #xy2 = np.loadtxt('currency_log.txt', delimiter=',', usecols=1)
 print("=======")
 print(xy)
@@ -81,9 +90,9 @@ for i in range(0, len(y) - seq_length):
     dataY.append(_y)
 
 # train/test split
-train_size = int(len(dataY) * 0.9) # 70%
+train_size = int(len(dataY) * 0.9) # 90%
 #train_size = int(len(dataY) - 1) # 70%
-test_size = len(dataY) - train_size # 30%
+test_size = len(dataY) - train_size # 10%
 trainX, testX = np.array(dataX[0:train_size]), np.array(
     dataX[train_size:len(dataX)])
 trainY, testY = np.array(dataY[0:train_size]), np.array(
@@ -129,10 +138,10 @@ with tf.Session() as sess:
     print("RMSE: {}".format(rmse))
 
     t_rmse = DeMinMaxScaler(rmse)
-    #print_testY = DeMinMaxScaler(testY)
-    #print_test_predict = DeMinMaxScaler(test_predict)
-    print_testY = (testY)
-    print_test_predict = (test_predict)
+    print_testY = DeMinMaxScaler(testY)
+    print_test_predict = DeMinMaxScaler(test_predict)
+    #print_testY = (testY)
+    #print_test_predict = (test_predict)
     
     # Plot predictions
     plt.plot(print_testY,label="Y")
@@ -140,7 +149,11 @@ with tf.Session() as sess:
     
     plt.xlabel("Time Period")
     plt.ylabel("Dollar Price")
-    #print("====> ", print_test_predict)
+    pred_result = clean_text(str(print_test_predict[:,[-2]][-1]))
+    print(pred_result)
+    f = open("pred_usd_1.txt", 'w')
+    f.write('{}\n'.format(pred_result))
+    f.close()
     #print("----> ", print_testY)
     plt.show()
     plt.savefig('result.png')

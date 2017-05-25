@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 def USD() :
     f = open("user.txt", 'r')
+    f2 = open("usd.txt", 'w')
     lines = f.readlines()
 
     ci = str(lines[0])
@@ -29,4 +30,7 @@ def USD() :
     editDataStr = editDataStr.replace('[<option class="selectbox-default" label="1" selected="selected" value="', '')
     editDataStr = editDataStr.replace('"> \\xb9\\xcc\\xb1\\xb9 \\xb4\\xde\\xb7\\xaf USD</option>, <option class="selectbox-default" label="1" value="1">\\xb4\\xeb\\xc7\\xd1\\xb9\\xce\\xb1\\xb9 \\xbf\\xf8 KRW</option>]', '')
     editDataStr = editDataStr.replace("\"> 미국 달러 USD</option>, <option class=\"selectbox-default\" label=\"1\" value=\"1\">대한민국 원 KRW</option>]" ,'')
+    f2.write(editDataStr)
+    f.close()
+    f2.close()
     return  editDataStr

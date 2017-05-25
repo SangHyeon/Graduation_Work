@@ -123,8 +123,8 @@ def main():
     global avg
     print(usd_currency.USD())
     client = get_user_info()
-    open_text = open('date.txt', 'r')
-    output_file = open('date_log.txt', 'w')
+    open_text = open('date2.txt', 'r')
+    output_file = open('date_log3.txt', 'w')
     count = 0
     while True :
         count += 1
@@ -144,7 +144,7 @@ def main():
         avg = 0
         if count == 150 :
             count = 0
-            time.sleep(10000)
+            time.sleep(1000)
 
     output_file.close()
     open_text.close()
