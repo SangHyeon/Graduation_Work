@@ -119,7 +119,6 @@ def get_article_url(client_id, client_secret, output_file, url): #get articles' 
             get_article(output_file, url)
 
 def main():
-    print(usd_currency.USD())
     client = get_user_info()
     day = datetime.datetime.today().weekday() 
     if(day == 5 or day == 6) :
@@ -128,13 +127,17 @@ def main():
         encText = urllib.parse.quote(get_date())
         encText2 = urllib.parse.quote("원달러환율")
         url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds="+encText+"&de="+encText+"&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
-        #url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=2017.04.26&de=2017.04.26&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
+        #url = "https://search.naver.com/search.naver?where=news&se=0&query="+encText2+"&ie=utf8&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=2017.05.24&de=2017.05.24&docid=&nso=so%3Ar%2Cp%3Afrom20170406to20170406%2Ca%3Aall&mynews=0&mson=0&refresh_start=0&related=0"
         output_file = open('words_log.txt', 'w')
+        f = open('usd.txt', 'w')
         get_article_url(client[0], client[1], output_file, url)
         #print("=====> : ", cnt_pos/avg)
         #print("-----> : ", cnt_neg/avg)
-        print(round(cnt_pos/avg - cnt_neg/avg, 3))
+        result = (round(cnt_pos/avg - cnt_neg/avg, 3))
+        print(result)
+        f.write('{} {} {}\n'.format(usd_currency.USD(), result, get_date()))
         output_file.close()
+        f.close()
 
         frequency.get_freq()
 
