@@ -1,7 +1,18 @@
-Adding_usd.py : 매일 저녁 6시30분 (텐서로그에 정보 추가)
-kibana_date.sh : 매일 저녁 6시 30분/elastic에 날짜 달러 입력
 Crawler.py : 매5분마다 실행(아침 7시부터 저녁 6시30분까지)
 kibana_tags.sh : 매 5분마다 실행(크롤링 이후에...)
 kibana_usd.sh : 매 5분마다 실행(크롤링 이후에...)
+Adding_usd.py : 매일 저녁 6시30분 (텐서로그에 정보 추가)
+kibana_date.sh : 매일 저녁 6시 30분/elastic에 날짜 달러 입력
 tensor.py / tensor2.py : 매일 저녁 6시 30분 실행
 kibana_pred.sh : 매일 저녁 6시 50분에 실행
+
+------------------------
+
+*/5 6-18 * * 1-5 python3 ~/GW2/crawler.py
+*/5 6-18 * * 1-5 ~/GW2/kibana_tags.sh
+*/5 6-18 * * 1-5 ~/GW2/kibana_usd.sh
+30 6 * * 1-5 python ~/GW2/Adding_usd.py
+31 6 * * 1-5 ~/GW2/kibana_date.sh
+32 6 * * 1-5 python3 ~/GW2/tensor.py
+32 6 * * 1-5 python3 ~/GW2/tensor2.py
+50 6 * * 1-5 ~/GW2/kibana_pred.sh
